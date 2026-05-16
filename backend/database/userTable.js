@@ -8,6 +8,7 @@ export const Users = async () => {
                 name VARCHAR(25) NOT NULL,
                 email VARCHAR(25) NOT NULL UNIQUE,
                 password VARCHAR(25) NOT NULL,
+                role Enum("admin","user") DEFAULT "user",
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )`,
