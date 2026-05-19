@@ -5,6 +5,7 @@ import userRoute from "./routes/userRoute.js";
 import { Users, updateTable } from "./database/userTable.js";
 import { catergoryTable, dropCategoryTable } from "./database/categoryTable.js";
 import categoryRoute from "./routes/categoryRoute.js";
+import productRoute from "./routes/productRoute.js";
 import {
   addImageField,
   ProductsTable,
@@ -23,9 +24,11 @@ const port = process.env.Port || 8000;
 // dropProductsTable();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoute);
 app.use("/api/categories", categoryRoute);
+app.use("/api/products", productRoute);
 
 app.listen(port, () => {
   console.log(`Server is running at the port ${port}`);

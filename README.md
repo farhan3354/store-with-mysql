@@ -1,96 +1,233 @@
-StoreInSQL (Backend)
+# StoreInSQL Backend API
 
-A lightweight Node.js backend for user management using MySQL.
+A full-stack backend API built with **Node.js, Express.js, and MySQL**, featuring:
 
-## Tech stack
+- User Authentication (JWT)
+- Category Management
+- Product Management
+- Cloudinary Image Uploads
+- RESTful API Design
 
-- Node.js + Express
-- MySQL (mysql2)
-- dotenv, bcryptjs, jsonwebtoken
+---
 
-## Project structure
+## Tech Stack
 
-- `backend/index.js` - app entry
-- `backend/configs/databaseConnection.js` - MySQL pool
-- `backend/controllers/userController.js` - handlers for user routes
-- `backend/routes/userRoute.js` - user routes
-- `backend/middleware/authMiddleware.js` - JWT verification
-- `backend/database/userTable.js` - table create/update helpers
+- Node.js
+- Express.js
+- MySQL (`mysql2`)
+- JWT Authentication
+- bcryptjs
+- Multer
+- Cloudinary
+- dotenv
 
-## Quick start
+---
 
-Prerequisites: Node.js (>=16), MySQL server
+## Features
 
-1. Install dependencies
+### User Authentication
+
+- Register User
+- Login User
+- JWT Token Generation
+- Protected Routes
+
+### Category Management
+
+- Add Category
+- View All Categories
+- Delete Category
+
+### Product Management
+
+- Add Product
+- View Products
+- Delete Products
+- Category Relationship
+
+### Image Upload
+
+- Upload product images to **Cloudinary**
+- Store image URLs in database
+
+---
+
+## Project Structure
 
 ```bash
-cd backend
+backend/
+│
+├── configs/
+│   └── databaseConnection.js
+│
+├── controllers/
+│   ├── userController.js
+│   ├── categoryController.js
+│   └── productController.js
+│
+├── routes/
+│   ├── userRoute.js
+│   ├── categoryRoute.js
+│   └── productRoute.js
+│
+├── middleware/
+│   └── authMiddleware.js
+│
+├── database/
+│   ├── userTable.js
+│   ├── categoryTable.js
+│   └── productTable.js
+│
+├── utils/
+│   └── cloudinary.js
+│
+├── .env
+├── index.js
+└── package.json
+```
+
+---
+
+## Installation
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/yourusername/storeinsql.git
+cd storeinsql/backend
+```
+
+---
+
+### 2. Install dependencies
+
+```bash
 npm install
 ```
 
-2. Create environment variables
+---
 
-Create a `.env` file in `backend/` with the following variables:
+### 3. Create `.env`
 
-```
-PORT=5000
+```env
+PORT=8000
+
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=laravel
+DB_PORT=3306
+
 JWT_SECRET=your_jwt_secret
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-3. Start the server
+---
 
-Run using Node or nodemon:
+## Run Project
 
 ```bash
-node index.js
-# or
-npx nodemon index.js
+npm run dev
 ```
 
-## Database setup
+Server runs on:
 
-The project exposes helper functions to create or update the `users` table in `backend/database/userTable.js`.
-Run them once from the app to ensure the table exists, or create the table manually with this SQL:
-
-```sql
-CREATE TABLE IF NOT EXISTS users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(25) NOT NULL,
-  email VARCHAR(25) NOT NULL UNIQUE,
-  password VARCHAR(25) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-ALTER TABLE users ADD COLUMN phone VARCHAR(25) NOT NULL AFTER email;
+```bash
+http://localhost:8000
 ```
 
-## API
+---
 
-Base path: `/` (see [backend/routes/userRoute.js](backend/routes/userRoute.js))
+## API Endpoints
 
-- Health check: `GET /` — returns a simple message
-- Create user: `POST /create` — body: `{ name, email, phone, password }` (registers user and returns JWT)
-- Get users: `GET /get` — returns all users
+### User Routes
 
-Notes:
+| Method | Endpoint  | Description   |
+| ------ | --------- | ------------- |
+| POST   | `/create` | Register User |
+| POST   | `/login`  | Login User    |
+| GET    | `/get`    | Get All Users |
 
-- `backend/controllers/userController.js` also contains a `login` handler but it is not currently wired in `userRoute.js`.
-- Protected routes should use `verifyToken` from `backend/middleware/authMiddleware.js`.
+---
 
-## Environment & troubleshooting
+### Category Routes
 
-- Ensure MySQL is running and credentials in `.env` match.
-- Database connection and pool are defined in [backend/configs/databaseConnection.js](backend/configs/databaseConnection.js).
-- If the server logs `Database connected successfully` the DB connection is working.
+| Method | Endpoint               | Description     |
+| ------ | ---------------------- | --------------- |
+| POST   | `/category/create`     | Add Category    |
+| GET    | `/category/get`        | Get Categories  |
+| DELETE | `/category/delete/:id` | Delete Category |
 
-## Contributing
+---
 
-- Open an issue or submit a PR for fixes and improvements.
+### Product Routes
 
-## License
+| Method | Endpoint              | Description    |
+| ------ | --------------------- | -------------- |
+| POST   | `/product/create`     | Add Product    |
+| GET    | `/product/get`        | Get Products   |
+| DELETE | `/product/delete/:id` | Delete Product |
 
-This project does not include a license. Add one if you plan to publish.
+---
+
+## Database Tables
+
+### Users
+
+- id
+- name
+- email
+- phone
+- password
+
+### Categories
+
+- id
+- category_name
+
+### Products
+
+- id
+- name
+- description
+- price
+- stock_quantity
+- imageurl
+- category_id
+
+---
+
+## Learning Outcomes
+
+This project helped me practice:
+
+- REST API Development
+- MySQL Relationships
+- JWT Authentication
+- File Upload Handling
+- Cloudinary Integration
+- Backend Folder Structure
+- Error Handling
+- API Testing with Postman
+
+---
+
+## Future Improvements
+
+- Update Product API
+- Update Category API
+- Product Search
+- Pagination
+- Admin Authorization
+- Swagger Documentation
+
+---
+
+## Author
+
+**Farhan Bashir**
+
+GitHub: https://github.com/yourusername
