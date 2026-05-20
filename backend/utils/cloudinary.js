@@ -86,7 +86,6 @@ export const uploadToCloudinary = async (
   }
 };
 
-// Delete from Cloudinary
 export const deleteFromCloudinary = async (publicId) => {
   try {
     const result = await cloudinary.uploader.destroy(publicId);
