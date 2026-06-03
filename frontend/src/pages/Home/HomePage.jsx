@@ -1,9 +1,19 @@
-function Home() {
+import Categories from "../../components/homeComponents/Categories";
+import FeaturedProducts from "../../components/homeComponents/FeaturedProducts";
+import HeroSection from "../../components/homeComponents/HeroSection";
+import Newsletter from "../../components/homeComponents/Newsletter";
+import StoreHighlights from "../../components/homeComponents/StoreHighlights";
+
+function HomePage() {
   return (
-    <div>
-      <h1>Home</h1>
+    <div className="bg-white">
+      <HeroSection />
+      <Categories />
+      <FeaturedProducts />
+      <StoreHighlights />
+      <Newsletter />
     </div>
   );
 }
 
-export default Home;
+export default HomePage;
