@@ -3,6 +3,7 @@ import FeaturedProducts from "../../components/homeComponents/FeaturedProducts";
 import HeroSection from "../../components/homeComponents/HeroSection";
 import Newsletter from "../../components/homeComponents/Newsletter";
 import StoreHighlights from "../../components/homeComponents/StoreHighlights";
+import WhyChooseUs from "../../components/homeComponents/WhyChooseUs";
 
 function HomePage() {
   return (
@@ -10,6 +11,7 @@ function HomePage() {
       <HeroSection />
       <Categories />
       <FeaturedProducts />
+      <WhyChooseUs />
       <StoreHighlights />
       <Newsletter />
     </div>

@@ -1,59 +1,78 @@
-import ProductCard from "./ProductCard";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { allProducts } from '../../data/products';
+import ProductCard from './ProductCard';
 
-const featuredProducts = [
-  {
-    name: "Astra Runner",
-    description: "Lightweight sneakers designed for all-day wear and movement.",
-    price: "$120",
-    badge: "New",
-    image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Studio Tote",
-    description: "Structured everyday bag with room for work and weekend plans.",
-    price: "$86",
-    badge: "Popular",
-    image:
-      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Minimal Watch",
-    description: "Clean lines, refined materials, and a sharp finishing touch.",
-    price: "$148",
-    badge: "Best value",
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+const tabs = ["New Arrivals", "Featured", "Best Sellers", "On Sale"];
 
-function FeaturedProducts() {
+const tagMap = {
+  "New Arrivals":  "New Arrivals",
+  "Featured":      "Featured",
+  "Best Sellers":  "Best Sellers",
+  "On Sale":       "On Sale",
+};
+
+export default function FeaturedProducts() {
+  const [activeTab, setActiveTab] = useState("New Arrivals");
+  const navigate = useNavigate();
+
+  const displayed = allProducts
+    .filter(p => {
+      if (activeTab === "On Sale") return p.isOnSale;
+      return p.tag === tagMap[activeTab];
+    })
+    .slice(0, 8);
+
   return (
-    <section className="bg-white py-20" id="featured">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-orange-500">
-              Featured picks
-            </p>
-            <h2 className="text-3xl font-semibold text-slate-950 md:text-5xl">
-              Products styled to sell themselves.
-            </h2>
-          </div>
-
-          <button className="w-fit rounded-full border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:border-slate-950 hover:bg-slate-950 hover:text-white">
-            View all products
-          </button>
+    <section className="py-28 bg-white" id="shop">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <p className="text-noble-accent text-xs uppercase tracking-[0.3em] font-semibold mb-4">Handpicked For You</p>
+          <h2 className="text-5xl md:text-6xl font-serif text-noble-primary mb-5">Our Products</h2>
+          <div className="w-16 h-[1px] bg-noble-accent mx-auto"></div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.name} {...product} />
+        {/* Tabs */}
+        <div className="flex flex-wrap justify-center gap-3 mb-14">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-8 py-3 text-xs uppercase tracking-[0.15em] font-medium rounded-sm transition-all duration-300 ${
+                activeTab === tab
+                  ? "bg-noble-primary text-white shadow-lg"
+                  : "bg-noble-bg text-noble-primary hover:bg-noble-primary/10"
+              }`}
+            >
+              {tab}
+            </button>
           ))}
+        </div>
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-14">
+          {displayed.map((item) => (
+            <ProductCard
+              key={item.id}
+              name={item.name}
+              price={`$${item.price.toLocaleString()}`}
+              image={item.image}
+              isOnSale={item.isOnSale}
+            />
+          ))}
+        </div>
+
+        {/* View All CTA → navigates to /products with the right filter */}
+        <div className="flex justify-center mt-16">
+          <Link
+            to={`/products`}
+            className="border border-noble-primary text-noble-primary hover:bg-noble-primary hover:text-white px-14 py-4 text-xs uppercase tracking-[0.2em] font-medium transition-all duration-500 rounded-sm hover:shadow-xl hover:-translate-y-1 inline-block"
+          >
+            View All {activeTab}
+          </Link>
         </div>
       </div>
     </section>
   );
 }
-
-export default FeaturedProducts;

@@ -5,9 +5,9 @@ import Header from "./Header";
 function Layout() {
   return (
     <>
-      <div className="container">
+      <div className="min-h-screen flex flex-col w-full">
         <Header />
-        <main className="main-content">
+        <main className="flex-1 w-full pt-[74px]">
           <Outlet />
         </main>
         <Footer />

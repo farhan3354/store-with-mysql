@@ -1,86 +1,51 @@
-const stats = [
-  { value: "10k+", label: "Happy shoppers" },
-  { value: "48h", label: "Fast delivery" },
-  { value: "4.9/5", label: "Customer rating" },
-];
-
-function HeroSection() {
+export default function HeroSection() {
   return (
-    <section className="overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(253,186,116,0.22),_transparent_34%),linear-gradient(135deg,_#0f172a_0%,_#111827_45%,_#1f2937_100%)] text-white" id="home">
-      <div className="mx-auto grid max-w-7xl gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
-        <div className="space-y-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-orange-200 backdrop-blur">
-            <span className="h-2 w-2 rounded-full bg-orange-400" />
-            New season arrivals are live
-          </div>
+    <section className="relative h-[95vh] w-full flex items-center justify-center text-center overflow-hidden">
+      {/* Background Image with Parallax & Zoome Effect */}
+      <div className="absolute inset-0 w-full h-full">
+        <img
+          src="./herobanner.png"
+          className="w-full h-full object-cover scale-105 animate-[pulse_20s_ease-in-out_infinite_alternate]"
+          alt="Luxury Jewelry"
+        />
+        {/* Soft elegant gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+      </div>
 
-          <div className="space-y-5">
-            <h1 className="max-w-xl text-5xl font-semibold leading-tight md:text-7xl">
-              Style that feels premium from the first click.
-            </h1>
+      <div className="relative z-10 text-white max-w-4xl px-4 flex flex-col items-center mt-16">
+        <span className="mb-6 uppercase tracking-[0.3em] text-sm text-noble-bg/90 font-medium animate-fade-in-up">
+          Exquisite Collection
+        </span>
 
-            <p className="max-w-xl text-lg leading-8 text-slate-300">
-              Shop curated essentials, trending fashion, and daily deals in one
-              polished storefront built for quick browsing and confident buying.
-            </p>
-          </div>
+        <h2 className="text-6xl md:text-8xl font-serif mb-8 leading-[1.1] max-w-3xl drop-shadow-2xl">
+          Find Your Perfect{" "}
+          <span className="italic font-light text-noble-accent">Sparkle</span>
+        </h2>
 
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <button className="rounded-full bg-white px-6 py-3 font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-orange-100">
-              Shop the collection
-            </button>
+        <p className="text-noble-bg/90 mb-12 text-lg md:text-xl font-sans tracking-widest max-w-xl font-light">
+          Discover luxury jewelry crafted for unforgettable moments.
+        </p>
 
-            <button className="rounded-full border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10">
-              See featured drops
-            </button>
-          </div>
+        <div className="flex gap-6 flex-col sm:flex-row">
+          <button className="bg-noble-accent hover:bg-white hover:text-noble-primary border border-transparent hover:border-noble-primary px-10 py-4 rounded-sm text-white font-sans uppercase tracking-[0.2em] text-sm font-semibold transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-1">
+            Shop Now
+          </button>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur"
-              >
-                <div className="text-2xl font-semibold text-white">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-slate-300">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+          <button className="bg-black/20 backdrop-blur-md border border-white/30 hover:bg-white/10 px-10 py-4 rounded-sm text-white font-sans uppercase tracking-[0.2em] text-sm font-semibold transition-all duration-500 shadow-xl hover:-translate-y-1">
+            View Lookbook
+          </button>
         </div>
+      </div>
 
-        <div className="relative mx-auto w-full max-w-xl">
-          <div className="absolute -left-6 top-10 h-28 w-28 rounded-full bg-orange-400/25 blur-3xl" />
-          <div className="absolute -right-6 bottom-8 h-32 w-32 rounded-full bg-emerald-400/20 blur-3xl" />
-
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 p-4 shadow-2xl backdrop-blur-xl">
-            <img
-              src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80"
-              alt="Fashion collection"
-              className="h-[460px] w-full rounded-[1.5rem] object-cover"
-            />
-
-            <div className="absolute bottom-7 left-7 right-7 rounded-3xl border border-white/10 bg-slate-950/80 p-5 text-white shadow-xl backdrop-blur">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm text-slate-300">Best seller</p>
-                  <h2 className="text-2xl font-semibold">Weekend streetwear edit</h2>
-                </div>
-
-                <div className="rounded-2xl bg-white px-4 py-2 text-right text-slate-950">
-                  <div className="text-xs uppercase tracking-[0.3em] text-slate-500">
-                    From
-                  </div>
-                  <div className="text-lg font-semibold">$39</div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+        <span className="text-xs uppercase tracking-widest text-white">
+          Scroll
+        </span>
+        <div className="w-[1px] h-12 bg-white/50 relative overflow-hidden">
+          <div className="w-full h-1/2 bg-white absolute top-0 animate-[bounce_2s_infinite]"></div>
         </div>
       </div>
     </section>
   );
 }
-
-export default HeroSection;

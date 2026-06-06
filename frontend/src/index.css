@@ -1,1 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import "tailwindcss";
+
+@theme {
+    --font-cormorant: "Cormorant", serif;
+    --font-poppins: "Poppins", sans-serif;
+
+    --color-noble-primary: #2f1e14;
+    --color-noble-accent: #c6a769;
+    --color-noble-secondary: #806e59;
+    --color-noble-bg: #f8f5ee;
+    --color-noble-sale: #eb001b;
+}
+
+body {
+    font-family: var(--font-poppins);
+    color: var(--color-noble-primary);
+    background-color: #ffffff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-cormorant);
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 1s ease both;
+}

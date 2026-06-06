@@ -1,53 +1,83 @@
-const highlights = [
-  {
-    title: "Curated selection",
-    text: "Only the most useful, wearable, and giftable products make the front page.",
-  },
-  {
-    title: "Fast checkout",
-    text: "A simple buying flow keeps the path from browse to purchase friction-light.",
-  },
-  {
-    title: "Trusted delivery",
-    text: "Clear shipping and support expectations make the store feel reliable.",
-  },
-];
+import React, { useState, useEffect } from 'react';
 
-function StoreHighlights() {
+function useCountdown(targetDate) {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) { clearInterval(interval); return; }
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / 1000 / 60) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  return timeLeft;
+}
+
+const TARGET = new Date(Date.now() + 12 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000 + 45 * 60 * 1000);
+
+function TimeBlock({ value, label }) {
   return (
-    <section className="bg-slate-950 py-20 text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <div className="space-y-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-orange-400">
-            Why customers stay
-          </p>
-          <h2 className="text-3xl font-semibold md:text-5xl">
-            Built for people who want shopping to feel simple.
-          </h2>
-          <p className="max-w-xl text-base leading-8 text-slate-300">
-            The home page combines clear offers, strong visuals, and quick entry
-            points so visitors can move from curiosity to checkout without
-            friction.
-          </p>
-        </div>
+    <div className="flex flex-col items-center">
+      <div className="bg-noble-primary text-white w-16 h-16 flex items-center justify-center text-2xl font-serif rounded-sm shadow-lg">
+        {String(value).padStart(2, '0')}
+      </div>
+      <span className="text-[9px] uppercase tracking-[0.2em] text-noble-secondary mt-2 font-medium">{label}</span>
+    </div>
+  );
+}
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {highlights.map((highlight) => (
-            <article
-              key={highlight.title}
-              className="rounded-[1.5rem] border border-white/10 bg-white/5 p-6 backdrop-blur"
-            >
-              <div className="mb-8 h-12 w-12 rounded-2xl bg-orange-500/20" />
-              <h3 className="mb-3 text-xl font-semibold">{highlight.title}</h3>
-              <p className="text-sm leading-7 text-slate-300">
-                {highlight.text}
-              </p>
-            </article>
-          ))}
+export default function StoreHighlights() {
+  const time = useCountdown(TARGET);
+
+  return (
+    <section className="bg-noble-bg py-28" id="collections">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-0 overflow-hidden rounded-sm shadow-2xl">
+          
+          {/* Left: Image */}
+          <div className="relative overflow-hidden h-[500px] md:h-auto">
+            <img
+              src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=900&q=85"
+              alt="Exclusive Jewelry Offer"
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-noble-primary/30 to-transparent"></div>
+          </div>
+
+          {/* Right: Content */}
+          <div className="bg-white flex flex-col items-start justify-center p-12 md:p-16">
+            <p className="text-noble-accent text-xs uppercase tracking-[0.35em] font-semibold mb-6">
+              Limited Time Offer
+            </p>
+            <h2 className="text-5xl md:text-6xl font-serif text-noble-primary mb-5 leading-tight">
+              Exclusive <span className="italic font-light">20% Off</span>
+            </h2>
+            <p className="text-sm text-noble-secondary leading-relaxed mb-10 max-w-sm">
+              Discover unparalleled elegance. Enjoy an additional 20% off all premium pieces for a limited time only. Offer ends when the timer hits zero.
+            </p>
+
+            {/* Live Countdown */}
+            <div className="flex gap-4 mb-12">
+              <TimeBlock value={time.days} label="Days" />
+              <TimeBlock value={time.hours} label="Hours" />
+              <TimeBlock value={time.minutes} label="Mins" />
+              <TimeBlock value={time.seconds} label="Secs" />
+            </div>
+
+            <button className="bg-noble-primary text-white hover:bg-noble-accent transition-all duration-500 px-12 py-4 text-xs uppercase tracking-[0.2em] rounded-sm shadow-lg hover:-translate-y-1 hover:shadow-xl font-semibold">
+              Explore Offer
+            </button>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
-export default StoreHighlights;
