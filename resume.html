@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farhan Bashir — MERN Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #151515;
+    --surface2: #1c1c1c;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #00e5a0;
+    --accent-dim: rgba(0,229,160,0.12);
+    --accent-dim2: rgba(0,229,160,0.06);
+    --text: #f0ede6;
+    --muted: #888880;
+    --muted2: #5a5a56;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Outfit', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 40px;
+    border-bottom: 0.5px solid var(--border2);
+    margin-bottom: 52px;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -40px;
+    width: 300px; height: 300px;
+    background: radial-gradient(ellipse at top left, rgba(0,229,160,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(42px, 6vw, 68px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    padding-bottom: 6px;
+  }
+
+  .hero-contacts a {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .hero-contacts a:hover { color: var(--accent); }
+
+  /* ── SUMMARY ── */
+  .summary {
+    font-size: 15.5px;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 680px;
+    margin-bottom: 56px;
+    padding-left: 28px;
+    border-left: 2px solid var(--accent);
+  }
+
+  /* ── GRID LAYOUT ── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 0 52px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--border2);
+  }
+
+  /* ── EXPERIENCE ITEMS ── */
+  .entry {
+    padding: 20px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .entry:hover {
+    border-color: var(--border2);
+  }
+
+  .entry::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    border-radius: 3px 0 0 3px;
+  }
+
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .entry-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .entry-period {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--accent);
+    white-space: nowrap;
+    padding: 3px 8px;
+    background: var(--accent-dim2);
+    border-radius: 4px;
+    border: 0.5px solid rgba(0,229,160,0.15);
+    margin-top: 1px;
+  }
+
+  .entry-org {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+
+  .entry-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .entry-bullets li {
+    font-size: 13px;
+    color: var(--muted);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .entry-bullets li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* ── PROJECTS ── */
+  .project {
+    padding: 20px;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .project:hover {
+    border-color: rgba(0,229,160,0.2);
+    background: rgba(0,229,160,0.03);
+  }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .project-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .project-badge {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .project-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .project-bullets li {
+    font-size: 12.5px;
+    color: var(--muted);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.55;
+  }
+
+  .project-bullets li::before {
+    content: '·';
+    position: absolute;
+    left: 3px;
+    color: var(--muted2);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar-section {
+    margin-bottom: 40px;
+  }
+
+  /* ── SKILLS ── */
+  .skill-group {
+    margin-bottom: 16px;
+  }
+
+  .skill-group-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag {
+    font-size: 11.5px;
+    padding: 4px 9px;
+    border-radius: 5px;
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    color: var(--muted);
+    font-family: var(--mono);
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .tag:hover {
+    border-color: rgba(0,229,160,0.3);
+    color: var(--accent);
+  }
+
+  .tag.accent {
+    background: var(--accent-dim);
+    border-color: rgba(0,229,160,0.2);
+    color: var(--accent);
+  }
+
+  /* ── EDUCATION CARD ── */
+  .edu-card {
+    padding: 18px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .edu-degree {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .edu-school {
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+
+  .edu-period {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted2);
+    margin-bottom: 8px;
+  }
+
+  .edu-tools {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT SIDEBAR ── */
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .contact-row:last-child { border-bottom: none; }
+
+  .contact-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 0.5px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .contact-icon svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .contact-text {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    word-break: break-all;
+  }
+
+  .contact-text a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .contact-text a:hover { color: var(--accent); }
+
+  /* ── STATUS INDICATOR ── */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    padding: 5px 12px;
+    border-radius: 99px;
+    background: rgba(0,229,160,0.08);
+    border: 0.5px solid rgba(0,229,160,0.2);
+    color: var(--accent);
+    margin-bottom: 36px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; color: #111; }
+    .page { padding: 30px; }
+  }
+
+  @media (max-width: 680px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-contacts { align-items: flex-start; }
+    .page { padding: 32px 20px 60px; }
+    h1 { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hero-tag">MERN Stack Developer</div>
+      <h1>Farhan<br><em>Bashir</em></h1>
+    </div>
+    <div class="hero-contacts">
+      <a href="mailto:farhanbashir3354@gmail.com">farhanbashir3354@gmail.com</a>
+      <a href="tel:+923141637204">+92 314 163 7204</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+      <a>Lahore, Pakistan</a>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status-pill">
+    <span class="status-dot"></span>
+    Available for opportunities
+  </div>
+
+  <!-- SUMMARY -->
+  <p class="summary">
+    Computer Science undergraduate at the University of Central Punjab with hands-on experience in full-stack web development. Currently interning at IIFA Tech, building production-grade MERN stack applications. Passionate about clean code, responsive UI, and real-world engineering.
+  </p>
+
+  <!-- MAIN + SIDEBAR -->
+  <div class="grid">
+
+    <!-- LEFT COLUMN -->
+    <div>
+
+      <!-- EXPERIENCE -->
+      <div class="section">
+        <div class="section-label">Experience</div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">MERN Stack Developer Intern</div>
+            <div class="entry-period">Jun 2025 – Present</div>
+          </div>
+          <div class="entry-org">IIFA Tech</div>
+          <ul class="entry-bullets">
+            <li>Building full-stack applications using MongoDB, Express.js, React.js, and Node.js</li>
+            <li>Contributing to API development, UI integration, and performance optimization</li>
+            <li>Collaborating in an agile team environment on real production features</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Web Development Training</div>
+            <div class="entry-period">Aug 2023 – Jan 2024</div>
+          </div>
+          <div class="entry-org">PNY Training Center, Multan</div>
+          <ul class="entry-bullets">
+            <li>Gained hands-on experience in front-end and back-end web development</li>
+            <li>Developed dynamic applications using React.js and Node.js</li>
+            <li>Worked with Express.js and MongoDB for backend and database integration</li>
+            <li>Built responsive websites using HTML5, CSS, JavaScript, and Tailwind CSS</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="section">
+        <div class="section-label">Projects</div>
+
+        <div class="project">
+          <div class="project-header">
+            <div class="project-name">Jobzy — Web Application</div>
+            <div class="project-badge">Aug 2025 – Present</div>
+          </div>
+          <ul class="project-bullets">
+            <li>Full-featured job portal built on the MERN stack for both Job Seekers and Employers</li>
+            <li>Secure authentication and access control with JWT</li>
+            <li>Complete job management system with dynamic user experiences</li>
+          </ul>
+        </div>
+
+        <div class="project">
+          <div class="project-header">
+            <div class="project-name">URL Shortener</div>
+            <div class="project-badge">MERN</div>
+          </div>
+          <ul class="project-bullets">
+            <li>Converts long URLs into custom or auto-generated short links</li>
+            <li>Stores and retrieves URL mappings via a clean RESTful API</li>
+            <li>Instant redirect from short URL to the original destination</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div>
+
+      <!-- SKILLS -->
+      <div class="sidebar-section">
+        <div class="section-label">Skills</div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Frontend</div>
+          <div class="skill-tags">
+            <span class="tag accent">React.js</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">Tailwind</span>
+            <span class="tag">Bootstrap</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Backend</div>
+          <div class="skill-tags">
+            <span class="tag accent">Node.js</span>
+            <span class="tag accent">Express.js</span>
+            <span class="tag">REST API</span>
+            <span class="tag">MongoDB</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Tools</div>
+          <div class="skill-tags">
+            <span class="tag">Git / GitHub</span>
+            <span class="tag">VS Code</span>
+            <span class="tag">Postman</span>
+            <span class="tag">MongoDB Compass</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Other</div>
+          <div class="skill-tags">
+            <span class="tag">OOP</span>
+            <span class="tag">Web Hosting</span>
+            <span class="tag">Deployment</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="sidebar-section">
+        <div class="section-label">Education</div>
+
+        <div class="edu-card">
+          <div class="edu-degree">Bachelor of Computer Science</div>
+          <div class="edu-school">University of Central Punjab</div>
+          <div class="edu-period">2024 – Present &nbsp;·&nbsp; Lahore, Pakistan</div>
+          <div class="edu-tools">Strong foundation in problem-solving, debugging, and team collaboration</div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="sidebar-section">
+        <div class="section-label">Contact</div>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          </div>
+          <div class="contact-text">
+            <a href="mailto:farhanbashir3354@gmail.com">farhanbashir3354<br>@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5.49 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.4 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.69 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.56 2.81.69A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="contact-text">+92 314 163 7204</div>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zM11 11V7m4 4V7"/></svg>
+          </div>
+          <div class="contact-text">
+            <a href="#">LinkedIn Profile</a>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <div class="contact-text">
+            <a href="#">GitHub Profile</a>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-text">Lahore, Pakistan</div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

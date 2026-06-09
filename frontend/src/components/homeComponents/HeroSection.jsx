@@ -1,14 +1,12 @@
 export default function HeroSection() {
-  return (
-    <section className="relative h-[95vh] w-full flex items-center justify-center text-center overflow-hidden">
-      {/* Background Image with Parallax & Zoome Effect */}
+  return (<>
+      <section className="relative h-[95vh] w-full flex items-center justify-center text-center overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         <img
           src="./herobanner.png"
           className="w-full h-full object-cover scale-105 animate-[pulse_20s_ease-in-out_infinite_alternate]"
           alt="Luxury Jewelry"
         />
-        {/* Soft elegant gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
       </div>
 
@@ -37,7 +35,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
         <span className="text-xs uppercase tracking-widest text-white">
           Scroll
@@ -47,5 +44,7 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
+  </>
+  
   );
 }

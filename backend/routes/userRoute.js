@@ -1,5 +1,5 @@
 import express from "express";
-import { getUSers, addUser, login, updatePassword } from "../controllers/userController.js";
+import { getUsers, addUser, login, updatePassword } from "../controllers/userController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 const route = express.Router();
@@ -10,7 +10,7 @@ route.get("/", (req, res) => {
 
 route.post("/create", addUser);
 
-route.get("/get",verifyToken, getUSers);
+route.get("/get",verifyToken, getUsers);
 
 route.post("/login", login);
 

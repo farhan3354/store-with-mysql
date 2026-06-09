@@ -10,7 +10,7 @@ const generatesalt = async (password) => {
 
 export const addUser = async (req, res) => {
   try {
-    const { name, email, phone, password, } = req.body;
+    const { name, email, phone, password } = req.body;
     const passw = generatesalt(password);
 
     const [row] = await Pool.query(

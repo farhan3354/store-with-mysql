@@ -18,6 +18,7 @@ const fileFilter = (req, file, cb) => {
     "image/png",
     "image/gif",
     "image/webp",
+    "image/avif",
     "image/bmp",
     "image/svg+xml",
   ];
@@ -34,8 +35,7 @@ const fileFilter = (req, file, cb) => {
 
   if (allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
-  }
-  else {
+  } else {
     const ext = file.originalname
       .toLowerCase()
       .substring(file.originalname.lastIndexOf("."));

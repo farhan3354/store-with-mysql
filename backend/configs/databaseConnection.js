@@ -5,14 +5,13 @@ export const Pool = mysql.createPool({
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "laravel",
-//   waitForConnections: true,
-//   connectionLimit: 10,
-//   queueLimit: 0,
-//   enableKeepAlive: true,
-//   keepAliveInitialDelay: 0,
+  //   waitForConnections: true,
+  //   connectionLimit: 10,
+  //   queueLimit: 0,
+  //   enableKeepAlive: true,
+  //   keepAliveInitialDelay: 0,
 });
-Pool
-  .getConnection()
+Pool.getConnection()
   .then((connection) => {
     console.log("✅ Database connected successfully");
     connection.release();
@@ -20,3 +19,12 @@ Pool
   .catch((err) => {
     console.error("❌ Database connection failed:", err.message);
   });
+
+export const deleteDatabase = async () => {
+  try {
+    await Pool.query(`DROP DATABASE IF EXISTS ${process.env.DB_NAME}`);
+    console.log("Database deleted successfully");
+  } catch (error) {
+    console.error("Error deleting database:", error);
+  }
+};

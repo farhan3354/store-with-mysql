@@ -9,7 +9,7 @@ export const cartTable = async () => {
             quantity int not null,
             created_at timestamp default current_timestamp,
             updated_at timestamp default current_timestamp on update current_timestamp,
-            foreign key (userid) references userstable(id),
+            foreign key (userid) references users(id),
             foreign key (productid) references productstable(id)      
             )`;
     await Pool.query(cartTable);
