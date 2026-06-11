@@ -8,7 +8,7 @@ import {
 import { verifyToken } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-router.post("/add-to-cart", verifyToken, addToCart);
+router.post("/add-to-cart/:productid", verifyToken, addToCart);
 router.get("/get-cart-items", verifyToken, getCart);
 router.delete("/remove-cart-product/:id", verifyToken, removeCartProduct);
 router.put("/change-quantity/:id", verifyToken, changeQuantity);

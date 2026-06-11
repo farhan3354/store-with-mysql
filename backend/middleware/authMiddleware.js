@@ -1,27 +1,26 @@
 import { Pool } from "../configs/databaseConnection.js";
+import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"];
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
   if (!token) {
-    return res.status(401).json({ message: "No token provided" });
+    return res.status(401).json({ message: "Access denied" });
   }
-  jwt.verify(
-    token,
-    process.env.JWT_SECRET || "defaultsecret",
-    (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: "Invalid token" });
-      }
-      req.userId = decoded.id;
-      next();
-    },
-  );
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
 };
 
 export const requireAdmin = async (req, res, next) => {
   try {
-    const userId = req.userId;
-    const [rows] = await pool.query(
+    const userId = req.user.id || req.user.userId;
+    const [rows] = await Pool.query(
       "SELECT id, role FROM users WHERE id = ? AND role = 'admin'",
       [userId],
     );

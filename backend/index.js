@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { deleteDatabase, Pool } from "./configs/databaseConnection.js";
 import userRoute from "./routes/userRoute.js";
-import { Users, dropTable, updateTable } from "./database/userTable.js";
+import { Users,updatePasswordColumn } from "./database/userTable.js";
 import { catergoryTable, dropCategoryTable } from "./database/categoryTable.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import productRoute from "./routes/productRoute.js";
@@ -12,7 +12,6 @@ import {
   addImageField,
   ProductsTable,
   dropProductsTable,
-  updateProductTable2,
   updateProductTable,
 } from "./database/productTable.js";
 dotenv.config();
@@ -20,8 +19,11 @@ dotenv.config();
 const app = express();
 const port = process.env.Port || 8000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Users();
-// updateTable();
+// updatePasswordColumn();
 // dropTable();
 // catergoryTable();
 // dropCategoryTable();
@@ -31,9 +33,6 @@ const port = process.env.Port || 8000;
 // cartTable();
 // dropCartTable();
 // deleteDatabase();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoute);
 app.use("/api/categories", categoryRoute);

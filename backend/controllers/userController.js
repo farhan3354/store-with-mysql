@@ -2,89 +2,129 @@ import { Pool } from "../configs/databaseConnection.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const generatesalt = async (password) => {
-  const generatesalt = await bcrypt.genSalt(12, 10);
-  const hashpassword = await bcrypt.hash(password, generatesalt);
-  return hashpassword;
-};
-
 export const addUser = async (req, res) => {
   try {
-    const { name, email, phone, password } = req.body;
-    const passw = generatesalt(password);
+    const { email, password, name, phone } = req.body;
 
-    const [row] = await Pool.query(
-      "Insert into users (name,email,phone,password) values (?,?,?,?)",
-      [name, email, phone, passw],
+    if (!email || !password || !name || !phone) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const [existingUser] = await Pool.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email],
     );
-    if (row.affectedRows > 0) {
-      jwt.sign(
-        { id: row.insertId },
-        process.env.JWT_SECRET || "defaultsecret",
-        { expiresIn: "1h" },
-        (err, token) => {
-          if (err) {
-            return res
-              .status(500)
-              .json({ message: "Error generating token", error: err.message });
-          }
 
-          return res
-            .status(200)
-            .json({ message: "User added successfully", token });
-        },
-      );
-    } else {
-      return res.status(400).json({ message: "Failed to add user" });
+    if (existingUser.length > 0) {
+      return res.status(400).json({ message: "User already exists" });
     }
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
-  }
-};
 
-export const getUSers = async (req, res) => {
-  try {
-    const [row] = await Pool.query("Select * from users");
-    if (row.length < 0) {
-      return res.status(404).json({ message: "No user found" });
-    }
-    return res.status(200).json({ success: true, users: row });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    console.log("Generated hash length:", hashedPassword.length);
+
+    const [result] = await Pool.query(
+      "INSERT INTO users (email, password, name, phone) VALUES (?, ?, ?, ?)",
+      [email, hashedPassword, name, phone],
+    );
+
+    return res.status(201).json({
+      message: "User registered successfully",
+      userId: result.insertId,
+    });
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
 
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const [row] = await Pool.query("Select * from users where email=?", [
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
+
+    const [rows] = await Pool.query("SELECT * FROM users WHERE email = ?", [
       email,
     ]);
-    if (row.length == 0) {
+
+    if (rows.length === 0) {
       return res.status(404).json({ message: "User not found" });
     }
-    const user = row[0];
+
+    const user = rows[0];
+
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Password match:", isMatch);
+
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    jwt.sign(
-      { id: user.id },
+
+    const token = jwt.sign(
+      { id: user.userid, email: user.email },
       process.env.JWT_SECRET || "defaultsecret",
       { expiresIn: "1h" },
-      (err, token) => {
-        if (err) {
-          return res
-            .status(500)
-            .json({ message: "Error generating token", error: err.message });
-        }
-
-        return res.status(200).json({ message: "Login successful", token });
-      },
     );
+
+    return res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        userId: user.userid,
+        email: user.email,
+        name: user.name,
+        phone: user.phone,
+        role: user.role,
+      },
+    });
   } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
+// Get all users (optional)
+export const getUsers = async (req, res) => {
+  try {
+    const [rows] = await Pool.query(
+      "SELECT userid, name, email, phone, role, created_at FROM users",
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    }
+    return res.status(200).json({ users: rows });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Get single user by ID
+export const getUserById = async (req, res) => {
+  try {
+    const { userid } = req.params;
+    const [rows] = await Pool.query(
+      "SELECT userid, name, email, phone, role, created_at FROM users WHERE userid = ?",
+      [userid],
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ user: rows[0] });
+  } catch (error) {
+    console.error("Error fetching user:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
