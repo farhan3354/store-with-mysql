@@ -16,6 +16,7 @@ import {
 } from "./database/productTable.js";
 import orderRoute from "./routes/orderRoute.js";
 import { createOrderTable, dropOrderTable } from "./database/orderTable.js";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -23,6 +24,7 @@ const port = process.env.Port || 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Users();
 // updatePasswordColumn();
@@ -37,14 +39,11 @@ app.use(express.urlencoded({ extended: true }));
 // deleteDatabase();
 // createOrderTable();
 
-
-
 app.use("/api/users", userRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/products", productRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/orders", orderRoute);
-
 
 app.listen(port, () => {
   console.log(`Server is running at the port ${port}`);

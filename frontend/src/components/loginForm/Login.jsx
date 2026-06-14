@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogin } from "../../hooks/useLogin";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -9,18 +10,27 @@ export default function Login() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setForm((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  const loginMutation = useLogin();
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
-  };
 
+    loginMutation.mutate(form, {
+      onSuccess: (data) => {
+        console.log("Login successful:", data);
+        navigate("/");
+      },
+      onError: (error) => {
+        console.error("Login failed:", error);
+      },
+    });
+  };
   return (
     <div className="min-h-screen flex">
       <div className="hidden lg:flex lg:w-1/2 relative">
@@ -42,10 +52,8 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right Side */}
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-[#F8F5F0] px-6">
         <div className="w-full max-w-md bg-white p-10 rounded-xl shadow-xl">
-          {/* Logo */}
           <div className="text-center mb-8">
             <h2 className="text-4xl font-serif text-[#1F1A17]">GemAura</h2>
 
@@ -53,7 +61,6 @@ export default function Login() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
                 Email Address
@@ -70,7 +77,6 @@ export default function Login() {
               />
             </div>
 
-            {/* Password */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
                 Password
@@ -87,7 +93,6 @@ export default function Login() {
               />
             </div>
 
-            {/* Remember Me */}
             <div className="flex justify-between items-center text-sm">
               <label className="flex items-center gap-2">
                 <input type="checkbox" />
@@ -102,7 +107,6 @@ export default function Login() {
               </Link>
             </div>
 
-            {/* Button */}
             <button
               type="submit"
               className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg font-medium transition"
@@ -111,19 +115,16 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="flex items-center my-6">
             <div className="flex-1 border-t"></div>
             <span className="px-4 text-gray-400 text-sm">OR</span>
             <div className="flex-1 border-t"></div>
           </div>
 
-          {/* Google */}
           <button className="w-full border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition">
             Continue with Google
           </button>
 
-          {/* Register */}
           <p className="text-center text-gray-500 mt-6">
             Don't have an account?{" "}
             <Link to="/register" className="text-amber-600 font-medium">

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useRegister } from "../../hooks/useRegister";
 
 function Register() {
   const [form, setForm] = useState({
@@ -18,9 +19,19 @@ function Register() {
     }));
   };
 
+  const registerMutation = useRegister();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(form);
+    registerMutation.mutate(form, {
+      onSuccess: (data) => {
+        console.log("Registration successful:", data);
+      },
+      onError: (error) => {
+        console.error("Registration failed:", error);
+      },
+    });
   };
 
   return (
@@ -49,7 +60,6 @@ function Register() {
       </div>
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-[#F8F5F0] px-6 py-10">
         <div className="w-full max-w-md bg-white p-10 rounded-xl shadow-2xl">
-          {/* Heading */}
           <div className="text-center mb-8">
             <h2 className="text-4xl font-serif text-[#1F1A17]">GemAura</h2>
 
@@ -126,6 +136,7 @@ function Register() {
             <button
               type="submit"
               className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg font-medium transition duration-300"
+              disabled={registerMutation.isLoading}
             >
               Create Account
             </button>

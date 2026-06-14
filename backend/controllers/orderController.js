@@ -115,3 +115,40 @@ export const updateOrder = async (req, res) => {
     });
   }
 };
+
+export const getAllOrders = async (req, res) => {
+  try {
+    const [orders] = await Pool.query(
+      "Select o.id,o.quantity,o.orderdate,o.total_amount,p.id,p.name,p.description,p.price,p.imageurl from orderstable o join productstable p on o.productid=p.id",
+    );
+    return res.status(200).json({ success: true, orders });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const changeOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    if (!id || !status) {
+      return res.status(400).json({
+        success: false,
+        message: "Order ID and status are required",
+      });
+    }
+    await Pool.query("UPDATE orderstable SET status = ? WHERE id = ?", [
+      status,
+      id,
+    ]);
+    return res.status(200).json({
+      success: true,
+      message: "Order status updated successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

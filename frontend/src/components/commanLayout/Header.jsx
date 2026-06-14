@@ -6,6 +6,10 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
+  // For demo - replace with actual data from your store/context
+  const [wishlistCount] = useState(4);
+  const [cartCount] = useState(3);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -14,6 +18,8 @@ export default function Header() {
 
   // Close mobile menu on route change
   useEffect(() => setMobileOpen(false), [location]);
+
+  const toggleMobileMenu = () => setMobileOpen((prev) => !prev);
 
   const navLinks = [
     { to: "/", label: "Home" },
@@ -89,7 +95,7 @@ export default function Header() {
             </svg>
           </Link>
 
-          {/* Wishlist */}
+          {/* Wishlist - Fixed: removed button wrapper */}
           <Link
             to="/wishlist"
             title="Wishlist"
@@ -109,12 +115,14 @@ export default function Header() {
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-            <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-noble-accent text-white rounded-full text-[9px] flex items-center justify-center font-semibold">
-              4
-            </span>
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-noble-accent text-white rounded-full text-[9px] flex items-center justify-center font-semibold">
+                {wishlistCount}
+              </span>
+            )}
           </Link>
 
-          {/* Cart */}
+          {/* Cart - Fixed: removed button wrapper */}
           <Link
             to="/cart"
             title="Cart"
@@ -134,13 +142,16 @@ export default function Header() {
                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
               />
             </svg>
-            <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-noble-accent text-white rounded-full text-[9px] flex items-center justify-center font-semibold">
-              3
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-noble-accent text-white rounded-full text-[9px] flex items-center justify-center font-semibold">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
-          {/* Account */}
-          <button
+          {/* Account - Fixed: removed button wrapper */}
+          <Link
+            to="/login"
             title="Account"
             className="hover:text-noble-accent transition-all hover:scale-110 duration-200"
           >
@@ -158,12 +169,13 @@ export default function Header() {
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-          </button>
+          </Link>
 
-          {/* Mobile burger */}
+          {/* Mobile burger - Fixed: extracted handler */}
           <button
-            onClick={() => setMobileOpen((o) => !o)}
+            onClick={toggleMobileMenu}
             className="md:hidden hover:text-noble-accent transition-colors"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -217,13 +229,13 @@ export default function Header() {
               to="/wishlist"
               className="text-sm uppercase tracking-widest text-noble-primary hover:text-noble-accent transition-colors"
             >
-              Wishlist
+              Wishlist ({wishlistCount})
             </Link>
             <Link
               to="/cart"
               className="text-sm uppercase tracking-widest text-noble-primary hover:text-noble-accent transition-colors"
             >
-              Cart (3)
+              Cart ({cartCount})
             </Link>
           </div>
         </div>
