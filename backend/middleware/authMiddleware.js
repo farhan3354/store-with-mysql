@@ -1,7 +1,7 @@
 import { Pool } from "../configs/databaseConnection.js";
 import jwt from "jsonwebtoken";
 
-export const authenticate = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {

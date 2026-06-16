@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
+import useAuthStore from "../../store/loginStore";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -15,17 +16,21 @@ export default function Login() {
       [name]: value,
     }));
   };
+  const { login } = useAuthStore();
 
   const loginMutation = useLogin();
   const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     loginMutation.mutate(form, {
       onSuccess: (data) => {
         console.log("Login successful:", data);
+        login(data.user, data.token);
         navigate("/");
       },
+
       onError: (error) => {
         console.error("Login failed:", error);
       },

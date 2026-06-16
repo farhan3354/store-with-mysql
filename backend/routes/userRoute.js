@@ -19,6 +19,10 @@ route.get("/get", verifyToken, getUsers);
 
 route.post("/login", login);
 
+route.get("/verify", verifyToken, (req, res) => {
+  res.json({ message: "Token is valid", user: req.user });
+});
+
 route.post("/update-password", verifyToken, updatePassword);
 
 export default route;

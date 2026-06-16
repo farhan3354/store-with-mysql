@@ -7,8 +7,23 @@ import CartPage from "./pages/Cart/CartPage";
 import AboutPage from "./pages/About/AboutPage";
 import RegisterForm from "./pages/Forms/RegisterForm";
 import LoginForm from "./pages/Forms/LoginForm";
+import useAuthStore from "./store/loginStore";
+import { useEffect } from "react";
+import ProtectedRoute from "./services/ProtectedRoute";
+import AdminLayout from "./components/commanLayout/admincomman/AdminLayout";
+import AllProducts from "./pages/Admin/Products/AllProducts";
+import Dashboard from "./pages/Admin/Dashboard/Dashboard";
+// import Categories from "./components/adminDashoard/Category/CreateCategory";
+import AllCategories from "./pages/Admin/Categories";
+import PostCategories from "./pages/Admin/PostCategories";
 
 function App() {
+  const hydrate = useAuthStore((state) => state.hydrate);
+
+  useEffect(() => {
+    hydrate();
+  }, []);
+
   return (
     <>
       <Routes>
@@ -21,6 +36,16 @@ function App() {
           <Route path="wishlist" element={<WishlistPage />} />
           <Route path="cart" element={<CartPage />} />
           <Route path="about" element={<AboutPage />} />
+        </Route>
+        {/* <Route element={<ProtectedRoute allowedRoles={["admin"]} />}> */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="products" element={<AllProducts />} />
+          {/* <Route path="orders" element={<Orders />} /> */}
+          {/* <Route path="users" element={<Users />} /> */}
+          <Route path="add-category" element={<PostCategories />} />
+          <Route path="categories" element={<AllCategories />} />
+          {/* </Route> */}
         </Route>
       </Routes>
     </>
